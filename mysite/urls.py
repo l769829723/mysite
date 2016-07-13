@@ -20,3 +20,9 @@ urlpatterns = [
     # url(r'^admin/', admin.site.urls),
 ]
 
+from django.conf.urls import include
+
+urlpatterns += [
+    url(r'^api_v1/', include('v1.urls'))
+]
+

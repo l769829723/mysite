@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 def localhost():
     import socket
     local_host = socket.getfqdn()
-    if local_host is 'WHY90882':
+    if local_host == 'WHY90882':
         return True
 
 if localhost():

@@ -74,12 +74,29 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+def localhost():
+    import socket
+    local_host = socket.getfqdn()
+    if local_host is 'WHY90882':
+        return True
+
+if localhost():
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'mysite',
+            'HOST': 'licy.mysql.pythonanywhere-services.com',
+            'USER': 'licy',
+            'PASSWORD': 'lcy2016Happ',
+        }
+    }
 
 
 # Password validation

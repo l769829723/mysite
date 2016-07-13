@@ -23,10 +23,39 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'u9y)z^oqhqc)a^&t+cd4sl!j$s13qvr_!ika0-rtxxnd=$^n$2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
 
 ALLOWED_HOSTS = []
 
+
+def localhost():
+    import socket
+    local_host = socket.getfqdn()
+    if local_host == 'WHY90882':
+        return True
+
+if localhost():
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
+    # Debug mode button
+    DEBUG = True
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'mysite',
+            'HOST': 'licy.mysql.pythonanywhere-services.com',
+            'USER': 'licy',
+            'PASSWORD': 'lcy2016Happ',
+        }
+    }
+    # Debug mode button
+    DEBUG = False
+    ALLOWED_HOSTS = '*'
 
 # Application definition
 
@@ -74,30 +103,12 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
-def localhost():
-    import socket
-    local_host = socket.getfqdn()
-    if local_host == 'WHY90882':
-        return True
-
-if localhost():
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        }
-    }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'mysite',
-            'HOST': 'licy.mysql.pythonanywhere-services.com',
-            'USER': 'licy',
-            'PASSWORD': 'lcy2016Happ',
-        }
-    }
-
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators

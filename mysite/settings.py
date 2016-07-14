@@ -57,11 +57,6 @@ else:
     DEBUG = False
     ALLOWED_HOSTS = '*'
 
-# Celery django
-import djcelery
-djcelery.setup_loader()
-BROKER_URL = 'django://'
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -71,8 +66,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'v1',
-    'djcelery',
-    'kombu.transport.django',
 ]
 
 MIDDLEWARE_CLASSES = [

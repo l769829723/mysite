@@ -57,6 +57,9 @@ else:
     DEBUG = False
     ALLOWED_HOSTS = '*'
 
+# Celery
+BROKER_URL = 'django://'
+
 # Application definition
 
 INSTALLED_APPS = [

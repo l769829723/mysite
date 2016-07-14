@@ -5,6 +5,7 @@ from celery import shared_task
 
 @shared_task
 def add(x, y):
+    print('*** arg: %d + arg: %d ***' % (x, y))
     return x + y
 
 

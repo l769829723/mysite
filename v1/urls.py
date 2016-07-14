@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import url
 from v1.views import home
+from v1.views import Hello
 
 urlpatterns = [
     url(r'^$', home, name='home'),
+    url(r'^hello', Hello.as_view(), name='hello'),
 ]
 

@@ -1,0 +1,72 @@
+{% extends 'backend/base-admin.html' %}
+{% load staticfiles %}
+{% block more_css_style %}
+    <link href="{% static 'uikit/css/components/htmleditor.min.css' %}" rel="stylesheet">
+    <link href="{% static 'uikit/CodeMirror/lib/codemirror.css' %}" rel="stylesheet">
+    <link href="{% static 'uikit/CodeMirror/lib/codemirror.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block right %}
+    <div class="uk-panel uk-panel-box uk-panel-header">
+        <form id="article" method="POST" action="{% url 'api:saveArticle' %}">
+            {% csrf_token %}
+            <h3 class="uk-panel-title">Edit</h3>
+            <p>
+                <textarea id="editor">Go ahead !</textarea>
+            </p>
+            <div class="uk-grid">
+                <div class="uk-width-1-2"></div>
+                <div class="uk-width-1-2 uk-text-right">
+                    <div class="uk-button-group">
+                        <button id="save" class="uk-button uk-button-success">
+                            <i class="uk-icon-save"></i> Save
+                        </button>
+                        <button id="publish" class="uk-button uk-button-primary">
+                            <i class="uk-icon-cloud-upload"></i> Publish
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
+
+{% block more_script %}
+    <script src="{% static 'uikit/CodeMirror/lib/codemirror.js' %}"></script>
+    <script src="{% static 'uikit/CodeMirror/mode/markdown/markdown.js' %}"></script>
+    <script src="{% static 'uikit/CodeMirror/addon/mode/overlay.js' %}"></script>
+    <script src="{% static 'uikit/CodeMirror/mode/xml/xml.js' %}"></script>
+    <script src="{% static 'uikit/CodeMirror/mode/gfm/gfm.js' %}"></script>
+    <script src="{% static 'uikit/js/lib/marked.js' %}"></script>
+    <script src="{% static 'uikit/js/components/htmleditor.min.js' %}"></script>
+    <script src="{% static 'csrf.js' %}"></script>
+    <script>
+        $(document).ready(function () {
+            var textarea = $('#editor');
+            var htmleditor = UIkit.htmleditor(textarea, {
+                "markdown": true
+            });
+
+            // Bind the publish event
+            var publish_btn = $("#publish");
+            publish_btn.bind("click", function (event) {
+                var clicked = true;
+                var form = $("#article");
+                $(this).attr("disabled", "");
+                $.ajax({
+                    url: form.attr("url"),
+                    data: {"content": textarea.val()},
+                    method: "POST",
+                    success: function (result) {
+                        if (result.status == 'ok') {
+                            UIkit.notify('<i class="uk-icon-check"></i>", {status:"success"}');
+                        } else {
+                            UIkit.notify('<i class="uk-icon-check"></i>", {status:"danger"}');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

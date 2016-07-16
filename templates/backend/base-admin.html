@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block more_css_style %}
+<link href="{% static 'uikit/css/components/notify.min.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <br>
+    <div class="uk-container">
+        <div class="uk-grid">
+
+            <!-- Web body left -->
+            <div class="uk-width-3-10">
+                <div class="uk-panel uk-panel-box">
+                    <h2 class="uk-panel-title">My Site</h2>
+                    <ul class="uk-nav uk-nav-side uk-nav-parent-icon" data-uk-nav>
+                        <li class="uk-parent uk-active">
+                            <a href="#">Articles</a>
+                            <ul class="uk-nav-sub">
+                                <li><a href="{% url 'ui:add' %}">Add a new one</a></li>
+                            </ul>
+                        </li>
+                        <li class="uk-parent">
+                            <a href="#">Parent</a>
+                            <ul class="uk-nav-sub">
+                                <li><a href="#">Sub item</a></li>
+                                <li><a href="#">Sub item</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Item</a></li>
+                        <li class="uk-nav-header">Header</li>
+                        <li class="uk-parent"><a href="#"><i class="uk-icon-star"></i> Parent</a></li>
+                        <li><a href="#"><i class="uk-icon-twitter"></i> Item</a></li>
+                        <li class="uk-nav-divider"></li>
+                        <li><a href="#"><i class="uk-icon-rss"></i> Item</a></li>
+                    </ul>
+
+                </div>
+            </div>
+            <!-- Web body right -->
+            <div class="uk-width-7-10">
+                {% block right %}
+
+                    <!-- Articles list -->
+                    <div id="articles">
+
+                    </div>
+
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -22,7 +22,13 @@ urlpatterns = [
 
 from django.conf.urls import include
 
+# API url
 urlpatterns += [
-    url(r'^api_v1/', include('v1.urls'))
+    url(r'^v1/', include('v1.urls', namespace='api')),
+]
+
+# UI url
+urlpatterns += [
+    url(r'^', include('ui.urls', namespace='ui')),
 ]
 

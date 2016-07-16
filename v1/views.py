@@ -8,7 +8,7 @@ from .task import add as task_add
 # Create your views here.
 
 def home(request):
-    return HttpResponse('Hello world.')
+    return HttpResponse('Hello world!')
 
 def add(request):
     a = request.GET.get('a', '0')

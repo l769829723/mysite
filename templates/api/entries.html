@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div id="entries">
+        <template v-for="e in articles">
+            <div class="posts">
+                <!-- temp <h1 class="content-subhead">Pinned Post</h1> -->
+                <!-- A single blog post -->
+                <section class="post">
+                    <header class="post-header">
+                        <h2 class="post-title">{{ '{{' }}e.title{{ '}}' }}</h2>
+                        <p class="post-meta">
+                            By <a href="#" class="label label-info">licy</a> under <a class="label label-primary"
+                                                                                      href="#">GegeShow</a>
+                            <a class="label label-sucess" href="#">Pure</a>
+                        </p>
+                    </header>
+                    <div class="post-description">
+                        <p>
+                            {{ '{{{' }}e.text{{ '}}}' }}
+                        </p>
+                        <div class="date">{{ '{{' }}e.stamp{{ '}}' }}</div>
+                    </div>
+                </section>
+            </div>
+        </template>
+    </div>
+
+    <form class="pure-form" id="load-more">
+        <fieldset>
+            <button v-on:click="load" type="button" class="pure-button pure-button-primary button-width">Load more &gt;&gt;
+            </button>
+            <legend></legend>
+        </fieldset>
+    </form>
+{% endblock %}
+{% block scripts %}
+    <script>
+
+        var required_page = 0;
+
+        function loadData(page){
+            $.ajax({
+                url: '/api/entries',
+                data: {
+                    page: page
+                },
+                success: function (result) {
+                    var obj = $.parseJSON(result);
+                    var entries;
+                    entries = obj.entries;
+                    new Vue({
+                        el: '#entries',
+                        data: {
+                            articles: entries
+                        }
+                    })
+                }
+            });
+        }
+
+        var vm;
+        vm = new Vue({
+            el: '#load-more',
+            // 在 `methods` 对象中定义方法
+            methods: {
+                load: function (event) {
+                    loadData(required_page);
+                    required_page += 10;
+                }
+            }
+        });
+
+        $(document).ready(function () {
+            loadData(0);
+        });
+
+        // 也可以在 JavaScript 代码中调用方法
+        //vm.load(); // -> 'Hello Vue.js!'
+    </script>
+{% endblock %}

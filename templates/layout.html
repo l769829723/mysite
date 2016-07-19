@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="分享快乐">
+    <title>HEXAGRAM</title>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='pure/pure-min.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='pure/grids-responsive-min.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='marketing.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='awesome/font-awesome.min.css') }}">
+    <!--[if lt IE 9]>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.js"></script>
+<![endif]-->
+</head>
+<body id="top">
+<style scoped>
+
+    .button-success,
+    .button-error,
+    .button-warning,
+    .button-secondary {
+        color: white;
+        border-radius: 4px;
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    }
+
+    .button-success {
+        background: rgb(28, 184, 65); /* this is a green */
+    }
+
+    .button-error {
+        background: rgb(202, 60, 60); /* this is a maroon */
+    }
+
+    .button-warning {
+        background: rgb(223, 117, 20); /* this is an orange */
+    }
+
+    .button-secondary {
+        background: rgb(66, 184, 236); /* this is a light blue */
+    }
+
+    .button-width {
+        width: 100%;
+    }
+
+</style>
+<div class="header">
+    <div class="home-menu pure-menu pure-menu-open pure-menu-horizontal pure-menu-fixed">
+        <a class="pure-menu-heading" href="">HEXAGRAM</a>
+        <ul>
+            <li class="pure-menu-selected"><a href="{{ url_for('home') }}"><i class="icon-home"></i> Home</a>
+            </li>
+            <li><a href="#top"><i class="icon-circle-arrow-up"></i> Top</a></li>
+            {% if not session.logged_in %}
+                <li><a href="{{ url_for('login') }}"><i class="icon-signin"></i> Sign In</a></li>
+            {% else %}
+                <li><a href="{{ url_for('logout') }}"><i class="icon-signout"></i> Sign Out</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+<div class="pure-g">
+    <div class="pure-u-1-24 pure-u-sm-1-12 pure-u-md-5-24"></div>
+    <div class="pure-u-22-24 pure-u-sm-10-12 pure-u-md-14-24 ">
+        <div class=page>
+            <h1><a href="{{ url_for('entries') }}">MySite</a></h1>
+            <div class=metanav>
+            </div>
+            {% for message in get_flashed_messages() %}
+                <div class=flash>{{ message }}</div>
+            {% endfor %}
+            {% block body %}{% endblock %}
+        </div>
+    </div>
+    <div class="pure-u-1-24 pure-u-sm-1-12 pure-u-md-5-24"></div>
+</div>
+
+<!-- Java Script loading -->
+<script src="{{ url_for('static', filename='js/vue/vue.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jQuery/jquery-3.0.0.min.js') }}"></script>
+<script>
+</script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

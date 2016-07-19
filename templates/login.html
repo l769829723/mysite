@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% block body %}
+  <div class="pure-g">
+    <div class="pure-u-1-24 pure-u-sm-1-12 pure-u-md-6-24"></div>
+    <div class="pure-u-22-24 pure-u-sm-10-12 pure-u-md-12-24">
+      {% if error %}<p class=error><label for="tips"><strong>Error:</strong></label> {{ error }}{% endif %}
+      <form class="pure-form pure-form-stacked" action="{{ url_for('login') }}" method=post>
+        <fieldset>
+          <legend>Welcome to login.</legend>
+          <label for="name">Your Name</label>
+          <input name="username" id="name" type="text" placeholder="Your Name">
+          <label for="password">Your Password</label>
+          <input name="password" id="password" type="password" placeholder="Your Password">
+          <button type="submit" class="pure-button">Sign Up</button>
+        </fieldset>
+      </form>
+    </div>
+    <div class="pure-u-1-24 pure-u-sm-1-12 pure-u-md-6-24"></div>
+  </div>
+{% endblock %}

@@ -1,0 +1,87 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div id="entries">
+        <template v-if="articles">
+            <div v-for="e in articles" class="posts">
+                <!-- temp <h1 class="content-subhead">Pinned Post</h1> -->
+                <!-- A single blog post -->
+                <section class="post">
+                    <header class="post-header">
+                        <h2 class="post-title">{{ '{{{' }}e.title{{ '}}}' }}</h2>
+                        <p class="post-meta">
+                            <!-- By <a href="#" class="label label-info">licy</a> under <a class="label label-primary"
+                                                                                       href="#">GegeShow</a>
+                             <a class="label label-sucess" href="#">Pure</a> -->
+                        </p>
+                    </header>
+                    <div class="post-description">
+                        <p>
+                            {{ '{{{' }}e.text{{ '}}}' }}
+                        </p>
+                        <div class="date">{{ '{{' }}e.stamp{{ '}}' }}</div>
+                    </div>
+                </section>
+            </div>
+            <form class="pure-form" id="load-more">
+                <fieldset>
+                    <button v-on:click="loadMore" id="load_btn" type="button"
+                            class="pure-button pure-button-primary button-width">
+                        Read
+                        more &gt;&gt;
+                    </button>
+                    <legend></legend>
+                </fieldset>
+            </form>
+        </template>
+        <template v-eles><h1>Can't found any data for now.</h1></template>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script>
+        var entries = {
+            articles: {{ entries|safe }},
+            request_page: 1
+        };
+        var vm = new Vue({
+            el: "#entries",
+            data: entries,
+            methods: {
+                loadMore: function (event) {
+                    url = "{{ url_for('entries') }}" + "?page=" + this.request_page;
+                    var load_btn = $("#load_btn");
+                    //load_btn.addClass("pure-button pure-button-disabled");
+                    load_btn.attr("disabled", "");
+                    load_btn_html = load_btn.html();
+                    load_btn.html("Loading ...");
+                    $.getJSON(url, function (data, status, xhr) {
+                        if (data.last_page == true) {
+                            load_btn.html("No more !");
+                        } else {
+                            entries.articles = data.entries;
+                            load_btn.html(load_btn_html);
+                            load_btn.removeAttr("disabled");
+                        }
+                    });
+                    this.request_page += 1
+                },
+                autoFresh: function (event) {
+                    url = '{{ url_for('updated', title='') }}';
+                    $.getJSON(url + entries.articles[0].title, function (data, status, xhr) {
+                        if(data.error == '' ){
+                            $.each(data.entries, function(index, e){
+                                entries.articles.unshift(e);
+                                setTimeout("",1000);
+                            });
+                        }
+                    });
+                }
+            }
+        });
+
+        $(document).ready(function(){
+            //$('body').everyTime('60s', 'fresh', vm.autoFresh());
+            fresh = setInterval(vm.autoFresh, 10000);
+        });
+
+    </script>
+{% endblock %}
